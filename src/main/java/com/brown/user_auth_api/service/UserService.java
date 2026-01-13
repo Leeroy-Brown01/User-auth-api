@@ -23,6 +23,9 @@ public class UserService {
     public String registerUser(UserRegistrationDto registrationDto) {
         NewUser user = new NewUser();
         user.setUsername(registrationDto.getUsername());
+        user.setSurname(registrationDto.getSurname());
+        user.setPhoneNumber(registrationDto.getPhoneNumber());
+        user.setAddress(registrationDto.getAddress());
         user.setPassword(registrationDto.getPassword());
         user.setEmail(registrationDto.getEmail());
         userRepository.save(user);
@@ -31,10 +34,14 @@ public class UserService {
 
     @DeleteMapping
     @Transactional
-    public String deleteUser(@NotNull Long id) {
+    public String deleteUser(@NotNull Long id, String email) {
         if (!userRepository.existsById(id)) {
             return "User with id " + id + " does not exist.";
         }
+        if (!userRepository.existsByEmail(email)){
+            return "User with email " + email + " does not exist.";
+        }
+        userRepository.deleteByEmail(email);
         userRepository.deleteById(id);
         return "User with id " + id + " has been deleted.";
 

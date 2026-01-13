@@ -20,10 +20,12 @@ public class UserController {
         System.out.println("Received User Registration Request" + registrationDto.getUsername());
         return userService.registerUser(registrationDto);
     }
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id, String email) {
         System.out.println("Received request to delete user with id: " + id);
-        return userService.deleteUser(id);
+        System.out.println("Received request to delete user with email: " + email);
+        return userService.deleteUser(id, email);
+
     }
     @PutMapping("/update/{id}")
     public String updateUser(@PathVariable Long id, @RequestBody UserRegistrationDto registrationDto) {
